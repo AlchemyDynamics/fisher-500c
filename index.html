@@ -1,0 +1,1674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fisher 500C — Bernard Edward's Signature Edition</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --walnut: #3e2723;
+  --walnut-light: #5d4037;
+  --walnut-dark: #1b0000;
+  --brass: #d4a843;
+  --brass-dim: #a07830;
+  --cream: #fdf6e3;
+  --cream-dark: #f0e6c8;
+  --warm-white: #fff8f0;
+  --charcoal: #2c2c2c;
+  --green: #4caf50;
+  --amber: #ff9800;
+  --red: #e53935;
+  --blue: #1e88e5;
+  --shadow: 0 2px 8px rgba(0,0,0,0.18);
+  --radius: 6px;
+  --font-display: 'Georgia', 'Times New Roman', serif;
+  --font-body: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-mono: 'Consolas', 'Monaco', monospace;
+}
+
+body {
+  font-family: var(--font-body);
+  background: var(--cream);
+  color: var(--charcoal);
+  min-height: 100vh;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════════ */
+header {
+  background: linear-gradient(135deg, var(--walnut) 0%, var(--walnut-light) 100%);
+  color: var(--cream);
+  padding: 24px 32px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    90deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.03) 2px,
+    rgba(0,0,0,0.03) 4px
+  );
+  pointer-events: none;
+}
+
+header h1 {
+  font-family: var(--font-display);
+  font-size: 28px;
+  font-weight: normal;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--brass);
+  text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+}
+
+header .subtitle {
+  font-family: var(--font-display);
+  font-size: 15px;
+  color: var(--cream-dark);
+  margin-top: 4px;
+  font-style: italic;
+  letter-spacing: 1px;
+}
+
+.header-meta {
+  display: flex;
+  gap: 24px;
+  margin-top: 12px;
+  font-size: 12px;
+  color: var(--brass-dim);
+  font-family: var(--font-mono);
+}
+
+.sync-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.sync-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--amber);
+  transition: background 0.3s;
+}
+
+.sync-dot.connected { background: var(--green); }
+.sync-dot.offline { background: var(--red); }
+
+/* ═══════════════════════════════════════════════════════════════
+   NAV TABS
+   ═══════════════════════════════════════════════════════════════ */
+nav {
+  display: flex;
+  background: var(--walnut-dark);
+  padding: 0 16px;
+  gap: 2px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+}
+
+nav button {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  padding: 12px 24px;
+  border: none;
+  background: transparent;
+  color: rgba(253,246,227,0.5);
+  cursor: pointer;
+  transition: all 0.2s;
+  border-bottom: 3px solid transparent;
+}
+
+nav button:hover {
+  color: var(--cream);
+  background: rgba(255,255,255,0.05);
+}
+
+nav button.active {
+  color: var(--brass);
+  border-bottom-color: var(--brass);
+  background: rgba(255,255,255,0.08);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   MAIN CONTENT
+   ═══════════════════════════════════════════════════════════════ */
+main {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.tab-panel { display: none; }
+.tab-panel.active { display: block; }
+
+/* ═══════════════════════════════════════════════════════════════
+   CARDS & TABLES
+   ═══════════════════════════════════════════════════════════════ */
+.card {
+  background: var(--warm-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(62,39,35,0.1);
+  margin-bottom: 24px;
+  overflow: hidden;
+}
+
+.card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, var(--walnut) 0%, var(--walnut-light) 100%);
+  color: var(--cream);
+}
+
+.card-header h2 {
+  font-family: var(--font-display);
+  font-size: 18px;
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+
+.card-body { padding: 20px; }
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.btn-brass {
+  background: var(--brass);
+  color: var(--walnut-dark);
+}
+
+.btn-brass:hover { background: #e0b54f; }
+
+.btn-sm { padding: 4px 10px; font-size: 12px; }
+
+.btn-danger { background: var(--red); color: #fff; }
+.btn-danger:hover { background: #c62828; }
+
+.btn-outline {
+  background: transparent;
+  border: 1.5px solid var(--brass-dim);
+  color: var(--walnut);
+}
+
+.btn-outline:hover { background: var(--cream-dark); }
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+th {
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--cream-dark);
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--walnut-light);
+  border-bottom: 2px solid var(--brass-dim);
+  white-space: nowrap;
+}
+
+td {
+  padding: 10px 12px;
+  border-bottom: 1px solid rgba(62,39,35,0.08);
+  vertical-align: top;
+}
+
+tr:hover td { background: rgba(212,168,67,0.05); }
+
+/* Editable cells */
+td[contenteditable="true"] {
+  cursor: text;
+  border-radius: 3px;
+  transition: background 0.15s;
+}
+
+td[contenteditable="true"]:focus {
+  background: rgba(212,168,67,0.12);
+  outline: 2px solid var(--brass);
+  outline-offset: -2px;
+}
+
+/* Status badges */
+.status-badge {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+}
+
+.status-sourced { background: #e8f5e9; color: #2e7d32; }
+.status-ordered { background: #e3f2fd; color: #1565c0; }
+.status-received { background: #f3e5f5; color: #7b1fa2; }
+.status-installed { background: #e0f2f1; color: #00695c; }
+.status-needed { background: #fff3e0; color: #e65100; }
+.status-pending { background: #fce4ec; color: #c62828; }
+
+.status-open { background: #fce4ec; color: #c62828; }
+.status-in-progress { background: #fff3e0; color: #e65100; }
+.status-resolved { background: #e8f5e9; color: #2e7d32; }
+.status-blocked { background: #f3e5f5; color: #7b1fa2; }
+
+.status-not-started { background: #eceff1; color: #546e7a; }
+.status-complete { background: #e8f5e9; color: #2e7d32; }
+
+.priority-high { color: var(--red); font-weight: 700; }
+.priority-medium { color: var(--amber); font-weight: 700; }
+.priority-low { color: var(--blue); font-weight: 700; }
+
+/* ═══════════════════════════════════════════════════════════════
+   SUMMARY STATS
+   ═══════════════════════════════════════════════════════════════ */
+.stats-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  flex: 1;
+  min-width: 150px;
+  background: var(--warm-white);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  border: 1px solid rgba(62,39,35,0.1);
+  padding: 16px 20px;
+  text-align: center;
+}
+
+.stat-value {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--brass);
+  font-weight: bold;
+}
+
+.stat-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: var(--walnut-light);
+  margin-top: 4px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIMELINE
+   ═══════════════════════════════════════════════════════════════ */
+.timeline-bar-container {
+  margin-bottom: 24px;
+  overflow-x: auto;
+}
+
+.timeline-visual {
+  position: relative;
+  min-height: 60px;
+  background: var(--cream-dark);
+  border-radius: var(--radius);
+  padding: 16px 12px;
+  margin-bottom: 16px;
+}
+
+.timeline-months {
+  display: flex;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  color: var(--walnut-light);
+  margin-bottom: 8px;
+}
+
+.timeline-months span {
+  flex: 1;
+  text-align: center;
+  border-left: 1px solid rgba(62,39,35,0.15);
+  padding: 2px 0;
+}
+
+.timeline-phase-bar {
+  height: 24px;
+  border-radius: 4px;
+  margin-bottom: 4px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0 8px;
+  font-size: 11px;
+  font-weight: 600;
+  color: #fff;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.timeline-phase-bar:hover { opacity: 0.85; }
+
+/* ═══════════════════════════════════════════════════════════════
+   MODAL
+   ═══════════════════════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+}
+
+.modal-overlay.open {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.modal {
+  background: var(--warm-white);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  width: 90%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-header {
+  padding: 16px 20px;
+  background: linear-gradient(135deg, var(--walnut) 0%, var(--walnut-light) 100%);
+  color: var(--cream);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  font-family: var(--font-display);
+  font-weight: normal;
+  letter-spacing: 1px;
+}
+
+.modal-close {
+  background: none;
+  border: none;
+  color: var(--cream);
+  font-size: 20px;
+  cursor: pointer;
+  padding: 4px 8px;
+}
+
+.modal-body { padding: 20px; }
+
+.form-group { margin-bottom: 16px; }
+
+.form-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--walnut-light);
+  margin-bottom: 6px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1.5px solid rgba(62,39,35,0.2);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  font-size: 14px;
+  background: var(--cream);
+  transition: border-color 0.15s;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  outline: none;
+  border-color: var(--brass);
+}
+
+.form-group textarea { resize: vertical; min-height: 80px; }
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.modal-footer {
+  padding: 12px 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  border-top: 1px solid rgba(62,39,35,0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DATA TOOLBAR
+   ═══════════════════════════════════════════════════════════════ */
+.data-toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 12px 0;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.data-toolbar .spacer { flex: 1; }
+
+.search-input {
+  padding: 6px 12px;
+  border: 1.5px solid rgba(62,39,35,0.2);
+  border-radius: var(--radius);
+  font-size: 13px;
+  background: var(--cream);
+  min-width: 200px;
+}
+
+.search-input:focus {
+  outline: none;
+  border-color: var(--brass);
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FOOTER
+   ═══════════════════════════════════════════════════════════════ */
+footer {
+  text-align: center;
+  padding: 16px;
+  font-size: 11px;
+  color: var(--walnut-light);
+  font-family: var(--font-mono);
+  border-top: 1px solid rgba(62,39,35,0.1);
+  margin-top: 24px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE
+   ═══════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  header { padding: 16px; }
+  header h1 { font-size: 20px; }
+  main { padding: 12px; }
+  nav { overflow-x: auto; }
+  nav button { padding: 10px 16px; font-size: 13px; white-space: nowrap; }
+  .form-row { grid-template-columns: 1fr; }
+  .stats-row { gap: 8px; }
+  .stat-card { min-width: 120px; padding: 12px; }
+  .stat-value { font-size: 22px; }
+  table { font-size: 13px; }
+  td, th { padding: 8px 6px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     HEADER
+     ═══════════════════════════════════════════════════════════════ -->
+<header>
+  <h1>Fisher 500-C</h1>
+  <div class="subtitle">Bernard Edward's Signature Edition — Production Dashboard</div>
+  <div class="header-meta">
+    <span class="sync-indicator">
+      <span class="sync-dot" id="syncDot"></span>
+      <span id="syncStatus">Local Mode</span>
+    </span>
+    <span id="lastSaved">—</span>
+  </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     NAV
+     ═══════════════════════════════════════════════════════════════ -->
+<nav>
+  <button class="active" data-tab="overview">Overview</button>
+  <button data-tab="bom">Bill of Materials</button>
+  <button data-tab="solutions">Solutions Required</button>
+  <button data-tab="timeline">Timeline</button>
+  <button data-tab="settings">Settings</button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     MAIN
+     ═══════════════════════════════════════════════════════════════ -->
+<main>
+
+  <!-- ─── OVERVIEW TAB ─── -->
+  <div id="tab-overview" class="tab-panel active">
+    <div class="stats-row">
+      <div class="stat-card">
+        <div class="stat-value" id="statTotalParts">0</div>
+        <div class="stat-label">Total Parts</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statSourced">0</div>
+        <div class="stat-label">Parts Sourced</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statBomCost">$0</div>
+        <div class="stat-label">Est. BOM Cost</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statOpenIssues">0</div>
+        <div class="stat-label">Open Issues</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-value" id="statProgress">0%</div>
+        <div class="stat-label">Timeline Progress</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Project Summary</h2>
+      </div>
+      <div class="card-body">
+        <p style="line-height:1.7; color: var(--walnut-light);">
+          The <strong>Bernard Edward's Signature Edition Fisher 500-C</strong> is a ground-up
+          resto-mod of the iconic 1960s Fisher 500-C stereo receiver. Every unit is rebuilt with
+          modern audiophile-grade components — improving sound quality, correcting known factory
+          defects, and bringing the visual design into the 21st century. This dashboard tracks
+          the production prototype and the resto-modding pipeline for a theoretical limited run
+          of <strong>100 units</strong>.
+        </p>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header">
+        <h2>Recent Activity</h2>
+      </div>
+      <div class="card-body" id="recentActivity">
+        <p style="color: var(--walnut-light); font-style: italic;">No activity yet. Start by adding parts, solutions, or timeline phases.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── BOM TAB ─── -->
+  <div id="tab-bom" class="tab-panel">
+    <div class="card">
+      <div class="card-header">
+        <h2>Bill of Materials</h2>
+        <button class="btn btn-brass" onclick="openBomModal()">+ Add Part</button>
+      </div>
+      <div class="card-body">
+        <div class="data-toolbar">
+          <input type="text" class="search-input" placeholder="Search parts..." id="bomSearch" oninput="renderBom()">
+          <div class="spacer"></div>
+          <button class="btn btn-outline btn-sm" onclick="exportData()">Export JSON</button>
+          <button class="btn btn-outline btn-sm" onclick="document.getElementById('importFile').click()">Import JSON</button>
+          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)">
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>Category</th>
+                <th>Part Name</th>
+                <th>Description</th>
+                <th>Source / Vendor</th>
+                <th>Part #</th>
+                <th>Qty</th>
+                <th>Unit $</th>
+                <th>Total $</th>
+                <th>Status</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="bomBody"></tbody>
+            <tfoot>
+              <tr>
+                <td colspan="7" style="text-align:right; font-weight:700; font-family:var(--font-mono);">TOTAL</td>
+                <td style="font-weight:700; font-family:var(--font-mono);" id="bomTotal">$0.00</td>
+                <td colspan="3"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SOLUTIONS TAB ─── -->
+  <div id="tab-solutions" class="tab-panel">
+    <div class="card">
+      <div class="card-header">
+        <h2>Solutions Required</h2>
+        <button class="btn btn-brass" onclick="openSolutionModal()">+ Add Issue</button>
+      </div>
+      <div class="card-body">
+        <div class="data-toolbar">
+          <input type="text" class="search-input" placeholder="Search issues..." id="solSearch" oninput="renderSolutions()">
+          <div class="spacer"></div>
+          <select id="solFilterStatus" onchange="renderSolutions()" style="padding:6px;border-radius:var(--radius);border:1.5px solid rgba(62,39,35,0.2);font-size:13px;">
+            <option value="">All Statuses</option>
+            <option value="Open">Open</option>
+            <option value="In Progress">In Progress</option>
+            <option value="Blocked">Blocked</option>
+            <option value="Resolved">Resolved</option>
+          </select>
+        </div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Category</th>
+                <th>Priority</th>
+                <th>Status</th>
+                <th>Description</th>
+                <th>Solution / Notes</th>
+                <th>Assigned</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="solBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── TIMELINE TAB ─── -->
+  <div id="tab-timeline" class="tab-panel">
+    <div class="card">
+      <div class="card-header">
+        <h2>Production Timeline</h2>
+        <button class="btn btn-brass" onclick="openPhaseModal()">+ Add Phase</button>
+      </div>
+      <div class="card-body">
+        <div class="timeline-bar-container" id="timelineVisual"></div>
+        <div style="overflow-x:auto;">
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Phase</th>
+                <th>Description</th>
+                <th>Start</th>
+                <th>End</th>
+                <th>Duration</th>
+                <th>Status</th>
+                <th>Dependencies</th>
+                <th>Notes</th>
+                <th></th>
+              </tr>
+            </thead>
+            <tbody id="timelineBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── SETTINGS TAB ─── -->
+  <div id="tab-settings" class="tab-panel">
+    <div class="card">
+      <div class="card-header"><h2>Firebase Sync Setup</h2></div>
+      <div class="card-body">
+        <p style="margin-bottom:16px; color:var(--walnut-light); line-height:1.6;">
+          To enable real-time collaboration, create a free
+          <a href="https://console.firebase.google.com/" target="_blank" style="color:var(--brass);">Firebase project</a>,
+          enable Realtime Database, and paste your config below. Both you and your partner
+          will see live updates as either of you edits the dashboard.
+        </p>
+        <div class="form-group">
+          <label>Firebase Config JSON</label>
+          <textarea id="firebaseConfigInput" rows="8" placeholder='{
+  "apiKey": "...",
+  "authDomain": "...",
+  "databaseURL": "...",
+  "projectId": "...",
+  "storageBucket": "...",
+  "messagingSenderId": "...",
+  "appId": "..."
+}'></textarea>
+        </div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-brass" onclick="saveFirebaseConfig()">Save & Connect</button>
+          <button class="btn btn-danger btn-sm" onclick="clearFirebaseConfig()">Disconnect</button>
+        </div>
+        <div id="firebaseStatus" style="margin-top:12px; font-size:13px; color:var(--walnut-light);"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-header"><h2>Data Management</h2></div>
+      <div class="card-body">
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-outline" onclick="exportData()">Export All Data (JSON)</button>
+          <button class="btn btn-outline" onclick="document.getElementById('importFile2').click()">Import Data (JSON)</button>
+          <input type="file" id="importFile2" accept=".json" style="display:none" onchange="importData(event)">
+          <button class="btn btn-danger" onclick="if(confirm('Delete ALL data? This cannot be undone.')){clearAllData();}">Reset All Data</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<footer>
+  Fisher 500-C Bernard Edward's Signature Edition — Production Dashboard v1.0
+</footer>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     BOM MODAL
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="bomModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="bomModalTitle">Add Part</h3>
+      <button class="modal-close" onclick="closeBomModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="bomEditId">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="bomCategory">
+            <option>Capacitors</option>
+            <option>Resistors</option>
+            <option>Tubes / Valves</option>
+            <option>Transformers</option>
+            <option>Potentiometers</option>
+            <option>Switches</option>
+            <option>Connectors</option>
+            <option>Wiring / Cable</option>
+            <option>Hardware</option>
+            <option>Chassis / Enclosure</option>
+            <option>Aesthetic / Visual</option>
+            <option>PCB / Board</option>
+            <option>Speakers</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Part Name</label>
+          <input type="text" id="bomName" placeholder="e.g. Nichicon KG Gold Tune 47uF">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <input type="text" id="bomDesc" placeholder="e.g. Replaces original electrolytic in output stage">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Source / Vendor</label>
+          <input type="text" id="bomVendor" placeholder="e.g. Mouser, eBay, Parts Connexion">
+        </div>
+        <div class="form-group">
+          <label>Part Number</label>
+          <input type="text" id="bomPartNum" placeholder="e.g. UKG1H470MHM">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Quantity</label>
+          <input type="number" id="bomQty" value="1" min="1">
+        </div>
+        <div class="form-group">
+          <label>Unit Cost ($)</label>
+          <input type="number" id="bomCost" step="0.01" value="0" min="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Status</label>
+          <select id="bomStatus">
+            <option>Needed</option>
+            <option>Sourced</option>
+            <option>Ordered</option>
+            <option>Received</option>
+            <option>Installed</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>&nbsp;</label>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea id="bomNotes" placeholder="Additional notes..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeBomModal()">Cancel</button>
+      <button class="btn btn-brass" onclick="saveBomItem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     SOLUTION MODAL
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="solModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="solModalTitle">Add Issue</h3>
+      <button class="modal-close" onclick="closeSolModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="solEditId">
+      <div class="form-group">
+        <label>Title</label>
+        <input type="text" id="solTitle" placeholder="e.g. Output transformer hum at idle">
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Category</label>
+          <select id="solCategory">
+            <option>Electrical</option>
+            <option>Mechanical</option>
+            <option>Aesthetic</option>
+            <option>Audio Quality</option>
+            <option>Thermal</option>
+            <option>Safety</option>
+            <option>Production Process</option>
+            <option>Sourcing</option>
+            <option>Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Priority</label>
+          <select id="solPriority">
+            <option>High</option>
+            <option>Medium</option>
+            <option>Low</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Status</label>
+          <select id="solStatus">
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>Blocked</option>
+            <option>Resolved</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Assigned To</label>
+          <input type="text" id="solAssigned" placeholder="e.g. Marco, Bernard">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="solDesc" placeholder="Describe the defect or issue..."></textarea>
+      </div>
+      <div class="form-group">
+        <label>Solution / Notes</label>
+        <textarea id="solSolution" placeholder="Proposed or implemented solution..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeSolModal()">Cancel</button>
+      <button class="btn btn-brass" onclick="saveSolItem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     TIMELINE PHASE MODAL
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="modal-overlay" id="phaseModal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="phaseModalTitle">Add Phase</h3>
+      <button class="modal-close" onclick="closePhaseModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="phaseEditId">
+      <div class="form-group">
+        <label>Phase Name</label>
+        <input type="text" id="phaseName" placeholder="e.g. Capacitor Recap">
+      </div>
+      <div class="form-group">
+        <label>Description</label>
+        <textarea id="phaseDesc" placeholder="What this phase involves..."></textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Start Date</label>
+          <input type="date" id="phaseStart">
+        </div>
+        <div class="form-group">
+          <label>End Date</label>
+          <input type="date" id="phaseEnd">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Status</label>
+          <select id="phaseStatus">
+            <option>Not Started</option>
+            <option>In Progress</option>
+            <option>Blocked</option>
+            <option>Complete</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Dependencies</label>
+          <input type="text" id="phaseDeps" placeholder="e.g. Phase 1, Phase 2">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notes</label>
+        <textarea id="phaseNotes" placeholder="Additional notes..."></textarea>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closePhaseModal()">Cancel</button>
+      <button class="btn btn-brass" onclick="savePhaseItem()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     FIREBASE SDK (loaded dynamically)
+     ═══════════════════════════════════════════════════════════════ -->
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════════════════ */
+const STORAGE_KEY = 'fisher500c_data';
+let DB = null; // Firebase ref when connected
+let state = {
+  bom: [],
+  solutions: [],
+  timeline: [],
+  activity: [],
+  firebaseConfig: null
+};
+
+/* ═══════════════════════════════════════════════════════════════
+   PERSISTENCE — localStorage + Firebase
+   ═══════════════════════════════════════════════════════════════ */
+function loadLocal() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (raw) {
+      const parsed = JSON.parse(raw);
+      state = { ...state, ...parsed };
+    }
+  } catch(e) { console.warn('Failed to load local data', e); }
+}
+
+function saveLocal() {
+  try {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    document.getElementById('lastSaved').textContent = 'Saved ' + new Date().toLocaleTimeString();
+  } catch(e) { console.warn('Failed to save local data', e); }
+}
+
+function save() {
+  saveLocal();
+  if (DB) {
+    DB.ref('fisher500c').set({
+      bom: state.bom,
+      solutions: state.solutions,
+      timeline: state.timeline,
+      activity: state.activity
+    });
+  }
+}
+
+function logActivity(msg) {
+  state.activity.unshift({ text: msg, time: new Date().toISOString() });
+  if (state.activity.length > 50) state.activity.length = 50;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   FIREBASE
+   ═══════════════════════════════════════════════════════════════ */
+function saveFirebaseConfig() {
+  const raw = document.getElementById('firebaseConfigInput').value.trim();
+  if (!raw) return;
+  try {
+    const cfg = JSON.parse(raw);
+    state.firebaseConfig = cfg;
+    saveLocal();
+    connectFirebase(cfg);
+  } catch(e) {
+    document.getElementById('firebaseStatus').textContent = 'Invalid JSON: ' + e.message;
+  }
+}
+
+function clearFirebaseConfig() {
+  state.firebaseConfig = null;
+  DB = null;
+  saveLocal();
+  document.getElementById('syncDot').className = 'sync-dot offline';
+  document.getElementById('syncStatus').textContent = 'Disconnected';
+  document.getElementById('firebaseStatus').textContent = 'Firebase disconnected. Using local storage only.';
+  document.getElementById('firebaseConfigInput').value = '';
+}
+
+function connectFirebase(cfg) {
+  if (!cfg || !cfg.databaseURL) {
+    document.getElementById('firebaseStatus').textContent = 'Missing databaseURL in config.';
+    return;
+  }
+  // Load Firebase SDK dynamically
+  if (typeof firebase === 'undefined') {
+    const s1 = document.createElement('script');
+    s1.src = 'https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js';
+    s1.onload = () => {
+      const s2 = document.createElement('script');
+      s2.src = 'https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js';
+      s2.onload = () => initFirebase(cfg);
+      document.head.appendChild(s2);
+    };
+    document.head.appendChild(s1);
+  } else {
+    initFirebase(cfg);
+  }
+}
+
+function initFirebase(cfg) {
+  try {
+    if (!firebase.apps.length) firebase.initializeApp(cfg);
+    DB = firebase.database();
+
+    // Listen for remote changes
+    DB.ref('fisher500c').on('value', (snap) => {
+      const data = snap.val();
+      if (data) {
+        state.bom = data.bom || [];
+        state.solutions = data.solutions || [];
+        state.timeline = data.timeline || [];
+        state.activity = data.activity || [];
+        saveLocal();
+        renderAll();
+      }
+    });
+
+    // Connection state
+    DB.ref('.info/connected').on('value', (snap) => {
+      if (snap.val() === true) {
+        document.getElementById('syncDot').className = 'sync-dot connected';
+        document.getElementById('syncStatus').textContent = 'Live Sync';
+      } else {
+        document.getElementById('syncDot').className = 'sync-dot offline';
+        document.getElementById('syncStatus').textContent = 'Reconnecting...';
+      }
+    });
+
+    document.getElementById('firebaseStatus').textContent = 'Connected to Firebase!';
+    document.getElementById('syncDot').className = 'sync-dot connected';
+    document.getElementById('syncStatus').textContent = 'Live Sync';
+
+    // Push local data to Firebase if remote is empty
+    DB.ref('fisher500c').once('value', (snap) => {
+      if (!snap.val() && (state.bom.length || state.solutions.length || state.timeline.length)) {
+        save();
+      }
+    });
+  } catch(e) {
+    document.getElementById('firebaseStatus').textContent = 'Error: ' + e.message;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TAB NAVIGATION
+   ═══════════════════════════════════════════════════════════════ */
+document.querySelectorAll('nav button').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+  });
+});
+
+/* ═══════════════════════════════════════════════════════════════
+   UNIQUE ID
+   ═══════════════════════════════════════════════════════════════ */
+function uid() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+
+/* ═══════════════════════════════════════════════════════════════
+   BOM LOGIC
+   ═══════════════════════════════════════════════════════════════ */
+function openBomModal(id) {
+  const modal = document.getElementById('bomModal');
+  if (id) {
+    const item = state.bom.find(b => b.id === id);
+    if (!item) return;
+    document.getElementById('bomModalTitle').textContent = 'Edit Part';
+    document.getElementById('bomEditId').value = id;
+    document.getElementById('bomCategory').value = item.category;
+    document.getElementById('bomName').value = item.name;
+    document.getElementById('bomDesc').value = item.desc;
+    document.getElementById('bomVendor').value = item.vendor;
+    document.getElementById('bomPartNum').value = item.partNum;
+    document.getElementById('bomQty').value = item.qty;
+    document.getElementById('bomCost').value = item.cost;
+    document.getElementById('bomStatus').value = item.status;
+    document.getElementById('bomNotes').value = item.notes;
+  } else {
+    document.getElementById('bomModalTitle').textContent = 'Add Part';
+    document.getElementById('bomEditId').value = '';
+    document.getElementById('bomCategory').value = 'Capacitors';
+    document.getElementById('bomName').value = '';
+    document.getElementById('bomDesc').value = '';
+    document.getElementById('bomVendor').value = '';
+    document.getElementById('bomPartNum').value = '';
+    document.getElementById('bomQty').value = 1;
+    document.getElementById('bomCost').value = 0;
+    document.getElementById('bomStatus').value = 'Needed';
+    document.getElementById('bomNotes').value = '';
+  }
+  modal.classList.add('open');
+}
+
+function closeBomModal() {
+  document.getElementById('bomModal').classList.remove('open');
+}
+
+function saveBomItem() {
+  const editId = document.getElementById('bomEditId').value;
+  const item = {
+    id: editId || uid(),
+    category: document.getElementById('bomCategory').value,
+    name: document.getElementById('bomName').value.trim(),
+    desc: document.getElementById('bomDesc').value.trim(),
+    vendor: document.getElementById('bomVendor').value.trim(),
+    partNum: document.getElementById('bomPartNum').value.trim(),
+    qty: parseInt(document.getElementById('bomQty').value) || 1,
+    cost: parseFloat(document.getElementById('bomCost').value) || 0,
+    status: document.getElementById('bomStatus').value,
+    notes: document.getElementById('bomNotes').value.trim()
+  };
+  if (!item.name) { alert('Part name is required.'); return; }
+
+  if (editId) {
+    const idx = state.bom.findIndex(b => b.id === editId);
+    if (idx >= 0) { state.bom[idx] = item; logActivity('Updated BOM: ' + item.name); }
+  } else {
+    state.bom.push(item);
+    logActivity('Added BOM: ' + item.name);
+  }
+  save();
+  renderAll();
+  closeBomModal();
+}
+
+function deleteBomItem(id) {
+  const item = state.bom.find(b => b.id === id);
+  if (!item || !confirm('Delete "' + item.name + '"?')) return;
+  state.bom = state.bom.filter(b => b.id !== id);
+  logActivity('Removed BOM: ' + item.name);
+  save();
+  renderAll();
+}
+
+function renderBom() {
+  const search = (document.getElementById('bomSearch').value || '').toLowerCase();
+  const tbody = document.getElementById('bomBody');
+  const filtered = state.bom.filter(b =>
+    !search || b.name.toLowerCase().includes(search) || b.category.toLowerCase().includes(search) ||
+    b.vendor.toLowerCase().includes(search) || b.partNum.toLowerCase().includes(search) ||
+    b.desc.toLowerCase().includes(search)
+  );
+
+  let total = 0;
+  tbody.innerHTML = filtered.map(b => {
+    const lineTotal = b.qty * b.cost;
+    total += lineTotal;
+    const statusClass = 'status-' + b.status.toLowerCase().replace(/\s+/g, '-');
+    return `<tr>
+      <td>${esc(b.category)}</td>
+      <td><strong>${esc(b.name)}</strong></td>
+      <td>${esc(b.desc)}</td>
+      <td>${esc(b.vendor)}</td>
+      <td style="font-family:var(--font-mono);font-size:12px;">${esc(b.partNum)}</td>
+      <td style="text-align:center;">${b.qty}</td>
+      <td style="font-family:var(--font-mono);">$${b.cost.toFixed(2)}</td>
+      <td style="font-family:var(--font-mono);font-weight:600;">$${lineTotal.toFixed(2)}</td>
+      <td><span class="status-badge ${statusClass}" onclick="cycleBomStatus('${b.id}')">${esc(b.status)}</span></td>
+      <td style="max-width:150px;font-size:12px;color:var(--walnut-light);">${esc(b.notes)}</td>
+      <td>
+        <button class="btn btn-outline btn-sm" onclick="openBomModal('${b.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteBomItem('${b.id}')">Del</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('bomTotal').textContent = '$' + total.toFixed(2);
+}
+
+function cycleBomStatus(id) {
+  const item = state.bom.find(b => b.id === id);
+  if (!item) return;
+  const order = ['Needed','Sourced','Ordered','Received','Installed'];
+  item.status = order[(order.indexOf(item.status) + 1) % order.length];
+  logActivity('BOM status: ' + item.name + ' → ' + item.status);
+  save();
+  renderAll();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   SOLUTIONS LOGIC
+   ═══════════════════════════════════════════════════════════════ */
+function openSolutionModal(id) {
+  const modal = document.getElementById('solModal');
+  if (id) {
+    const item = state.solutions.find(s => s.id === id);
+    if (!item) return;
+    document.getElementById('solModalTitle').textContent = 'Edit Issue';
+    document.getElementById('solEditId').value = id;
+    document.getElementById('solTitle').value = item.title;
+    document.getElementById('solCategory').value = item.category;
+    document.getElementById('solPriority').value = item.priority;
+    document.getElementById('solStatus').value = item.status;
+    document.getElementById('solAssigned').value = item.assigned;
+    document.getElementById('solDesc').value = item.desc;
+    document.getElementById('solSolution').value = item.solution;
+  } else {
+    document.getElementById('solModalTitle').textContent = 'Add Issue';
+    document.getElementById('solEditId').value = '';
+    document.getElementById('solTitle').value = '';
+    document.getElementById('solCategory').value = 'Electrical';
+    document.getElementById('solPriority').value = 'Medium';
+    document.getElementById('solStatus').value = 'Open';
+    document.getElementById('solAssigned').value = '';
+    document.getElementById('solDesc').value = '';
+    document.getElementById('solSolution').value = '';
+  }
+  modal.classList.add('open');
+}
+
+function closeSolModal() {
+  document.getElementById('solModal').classList.remove('open');
+}
+
+function saveSolItem() {
+  const editId = document.getElementById('solEditId').value;
+  const item = {
+    id: editId || uid(),
+    num: editId ? state.solutions.find(s => s.id === editId)?.num : (state.solutions.length + 1),
+    title: document.getElementById('solTitle').value.trim(),
+    category: document.getElementById('solCategory').value,
+    priority: document.getElementById('solPriority').value,
+    status: document.getElementById('solStatus').value,
+    assigned: document.getElementById('solAssigned').value.trim(),
+    desc: document.getElementById('solDesc').value.trim(),
+    solution: document.getElementById('solSolution').value.trim()
+  };
+  if (!item.title) { alert('Title is required.'); return; }
+
+  if (editId) {
+    const idx = state.solutions.findIndex(s => s.id === editId);
+    if (idx >= 0) { state.solutions[idx] = item; logActivity('Updated issue: ' + item.title); }
+  } else {
+    state.solutions.push(item);
+    logActivity('Added issue: ' + item.title);
+  }
+  save();
+  renderAll();
+  closeSolModal();
+}
+
+function deleteSolItem(id) {
+  const item = state.solutions.find(s => s.id === id);
+  if (!item || !confirm('Delete "' + item.title + '"?')) return;
+  state.solutions = state.solutions.filter(s => s.id !== id);
+  logActivity('Removed issue: ' + item.title);
+  save();
+  renderAll();
+}
+
+function renderSolutions() {
+  const search = (document.getElementById('solSearch').value || '').toLowerCase();
+  const filterStatus = document.getElementById('solFilterStatus').value;
+  const tbody = document.getElementById('solBody');
+
+  const filtered = state.solutions.filter(s => {
+    if (filterStatus && s.status !== filterStatus) return false;
+    if (search && !s.title.toLowerCase().includes(search) && !s.desc.toLowerCase().includes(search) &&
+        !s.category.toLowerCase().includes(search)) return false;
+    return true;
+  });
+
+  tbody.innerHTML = filtered.map(s => {
+    const statusClass = 'status-' + s.status.toLowerCase().replace(/\s+/g, '-');
+    const prioClass = 'priority-' + s.priority.toLowerCase();
+    return `<tr>
+      <td style="font-family:var(--font-mono);font-size:12px;">#${s.num}</td>
+      <td><strong>${esc(s.title)}</strong></td>
+      <td>${esc(s.category)}</td>
+      <td><span class="${prioClass}">${esc(s.priority)}</span></td>
+      <td><span class="status-badge ${statusClass}" onclick="cycleSolStatus('${s.id}')">${esc(s.status)}</span></td>
+      <td style="max-width:200px;font-size:13px;">${esc(s.desc)}</td>
+      <td style="max-width:200px;font-size:13px;">${esc(s.solution)}</td>
+      <td>${esc(s.assigned)}</td>
+      <td>
+        <button class="btn btn-outline btn-sm" onclick="openSolutionModal('${s.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteSolItem('${s.id}')">Del</button>
+      </td>
+    </tr>`;
+  }).join('');
+}
+
+function cycleSolStatus(id) {
+  const item = state.solutions.find(s => s.id === id);
+  if (!item) return;
+  const order = ['Open','In Progress','Blocked','Resolved'];
+  item.status = order[(order.indexOf(item.status) + 1) % order.length];
+  logActivity('Issue status: ' + item.title + ' → ' + item.status);
+  save();
+  renderAll();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   TIMELINE LOGIC
+   ═══════════════════════════════════════════════════════════════ */
+function openPhaseModal(id) {
+  const modal = document.getElementById('phaseModal');
+  if (id) {
+    const item = state.timeline.find(t => t.id === id);
+    if (!item) return;
+    document.getElementById('phaseModalTitle').textContent = 'Edit Phase';
+    document.getElementById('phaseEditId').value = id;
+    document.getElementById('phaseName').value = item.name;
+    document.getElementById('phaseDesc').value = item.desc;
+    document.getElementById('phaseStart').value = item.start;
+    document.getElementById('phaseEnd').value = item.end;
+    document.getElementById('phaseStatus').value = item.status;
+    document.getElementById('phaseDeps').value = item.deps;
+    document.getElementById('phaseNotes').value = item.notes;
+  } else {
+    document.getElementById('phaseModalTitle').textContent = 'Add Phase';
+    document.getElementById('phaseEditId').value = '';
+    document.getElementById('phaseName').value = '';
+    document.getElementById('phaseDesc').value = '';
+    document.getElementById('phaseStart').value = '';
+    document.getElementById('phaseEnd').value = '';
+    document.getElementById('phaseStatus').value = 'Not Started';
+    document.getElementById('phaseDeps').value = '';
+    document.getElementById('phaseNotes').value = '';
+  }
+  modal.classList.add('open');
+}
+
+function closePhaseModal() {
+  document.getElementById('phaseModal').classList.remove('open');
+}
+
+function savePhaseItem() {
+  const editId = document.getElementById('phaseEditId').value;
+  const item = {
+    id: editId || uid(),
+    name: document.getElementById('phaseName').value.trim(),
+    desc: document.getElementById('phaseDesc').value.trim(),
+    start: document.getElementById('phaseStart').value,
+    end: document.getElementById('phaseEnd').value,
+    status: document.getElementById('phaseStatus').value,
+    deps: document.getElementById('phaseDeps').value.trim(),
+    notes: document.getElementById('phaseNotes').value.trim()
+  };
+  if (!item.name) { alert('Phase name is required.'); return; }
+
+  if (editId) {
+    const idx = state.timeline.findIndex(t => t.id === editId);
+    if (idx >= 0) { state.timeline[idx] = item; logActivity('Updated phase: ' + item.name); }
+  } else {
+    state.timeline.push(item);
+    logActivity('Added phase: ' + item.name);
+  }
+  save();
+  renderAll();
+  closePhaseModal();
+}
+
+function deletePhaseItem(id) {
+  const item = state.timeline.find(t => t.id === id);
+  if (!item || !confirm('Delete phase "' + item.name + '"?')) return;
+  state.timeline = state.timeline.filter(t => t.id !== id);
+  logActivity('Removed phase: ' + item.name);
+  save();
+  renderAll();
+}
+
+function movePhase(id, dir) {
+  const idx = state.timeline.findIndex(t => t.id === id);
+  const newIdx = idx + dir;
+  if (newIdx < 0 || newIdx >= state.timeline.length) return;
+  [state.timeline[idx], state.timeline[newIdx]] = [state.timeline[newIdx], state.timeline[idx]];
+  save();
+  renderAll();
+}
+
+function renderTimeline() {
+  const tbody = document.getElementById('timelineBody');
+  tbody.innerHTML = state.timeline.map((t, i) => {
+    const statusClass = 'status-' + t.status.toLowerCase().replace(/\s+/g, '-');
+    const days = t.start && t.end ? Math.max(1, Math.round((new Date(t.end) - new Date(t.start)) / 86400000)) : '—';
+    return `<tr>
+      <td style="font-family:var(--font-mono);">${i + 1}</td>
+      <td><strong>${esc(t.name)}</strong></td>
+      <td style="font-size:13px;">${esc(t.desc)}</td>
+      <td style="font-family:var(--font-mono);font-size:12px;">${t.start || '—'}</td>
+      <td style="font-family:var(--font-mono);font-size:12px;">${t.end || '—'}</td>
+      <td style="font-family:var(--font-mono);text-align:center;">${days}${typeof days === 'number' ? 'd' : ''}</td>
+      <td><span class="status-badge ${statusClass}" onclick="cyclePhaseStatus('${t.id}')">${esc(t.status)}</span></td>
+      <td style="font-size:12px;">${esc(t.deps)}</td>
+      <td style="max-width:150px;font-size:12px;color:var(--walnut-light);">${esc(t.notes)}</td>
+      <td style="white-space:nowrap;">
+        <button class="btn btn-outline btn-sm" onclick="movePhase('${t.id}',-1)" ${i===0?'disabled':''} title="Move Up">&#9650;</button>
+        <button class="btn btn-outline btn-sm" onclick="movePhase('${t.id}',1)" ${i===state.timeline.length-1?'disabled':''} title="Move Down">&#9660;</button>
+        <button class="btn btn-outline btn-sm" onclick="openPhaseModal('${t.id}')">Edit</button>
+        <button class="btn btn-danger btn-sm" onclick="deletePhaseItem('${t.id}')">Del</button>
+      </td>
+    </tr>`;
+  }).join('');
+
+  // Render visual Gantt
+  renderGantt();
+}
+
+function cyclePhaseStatus(id) {
+  const item = state.timeline.find(t => t.id === id);
+  if (!item) return;
+  const order = ['Not Started','In Progress','Blocked','Complete'];
+  item.status = order[(order.indexOf(item.status) + 1) % order.length];
+  logActivity('Phase status: ' + item.name + ' → ' + item.status);
+  save();
+  renderAll();
+}
+
+const GANTT_COLORS = [
+  '#d4a843','#e53935','#1e88e5','#43a047','#8e24aa',
+  '#f4511e','#00897b','#5e35b1','#fb8c00','#3949ab'
+];
+
+function renderGantt() {
+  const container = document.getElementById('timelineVisual');
+  const phases = state.timeline.filter(t => t.start && t.end);
+  if (!phases.length) {
+    container.innerHTML = '<div style="text-align:center;color:var(--walnut-light);padding:24px;font-style:italic;">Add phases with start and end dates to see the Gantt chart.</div>';
+    return;
+  }
+
+  const allDates = phases.flatMap(p => [new Date(p.start), new Date(p.end)]);
+  const minDate = new Date(Math.min(...allDates));
+  const maxDate = new Date(Math.max(...allDates));
+  const totalDays = Math.max(1, (maxDate - minDate) / 86400000);
+
+  // Build month headers
+  let months = [];
+  let d = new Date(minDate.getFullYear(), minDate.getMonth(), 1);
+  while (d <= maxDate) {
+    months.push(d.toLocaleString('default', { month: 'short', year: '2-digit' }));
+    d.setMonth(d.getMonth() + 1);
+  }
+
+  let html = '<div class="timeline-visual">';
+  html += '<div class="timeline-months">' + months.map(m => `<span>${m}</span>`).join('') + '</div>';
+
+  phases.forEach((p, i) => {
+    const startOff = (new Date(p.start) - minDate) / 86400000;
+    const dur = Math.max(1, (new Date(p.end) - new Date(p.start)) / 86400000);
+    const left = (startOff / totalDays * 100).toFixed(2);
+    const width = (dur / totalDays * 100).toFixed(2);
+    const color = GANTT_COLORS[i % GANTT_COLORS.length];
+    const opacity = p.status === 'Complete' ? '0.5' : '1';
+    html += `<div class="timeline-phase-bar" style="margin-left:${left}%;width:${width}%;background:${color};opacity:${opacity};" onclick="openPhaseModal('${p.id}')" title="${esc(p.name)}: ${p.start} to ${p.end}">${esc(p.name)}</div>`;
+  });
+
+  html += '</div>';
+  container.innerHTML = html;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   OVERVIEW STATS
+   ═══════════════════════════════════════════════════════════════ */
+function renderOverview() {
+  // Stats
+  document.getElementById('statTotalParts').textContent = state.bom.length;
+  const sourcedStatuses = ['Sourced','Ordered','Received','Installed'];
+  document.getElementById('statSourced').textContent = state.bom.filter(b => sourcedStatuses.includes(b.status)).length;
+  const totalCost = state.bom.reduce((s, b) => s + b.qty * b.cost, 0);
+  document.getElementById('statBomCost').textContent = '$' + totalCost.toFixed(0);
+  document.getElementById('statOpenIssues').textContent = state.solutions.filter(s => s.status !== 'Resolved').length;
+
+  const totalPhases = state.timeline.length;
+  const completePhases = state.timeline.filter(t => t.status === 'Complete').length;
+  document.getElementById('statProgress').textContent = totalPhases ? Math.round(completePhases / totalPhases * 100) + '%' : '0%';
+
+  // Activity
+  const actDiv = document.getElementById('recentActivity');
+  if (state.activity.length) {
+    actDiv.innerHTML = '<ul style="list-style:none;max-height:300px;overflow-y:auto;">' +
+      state.activity.slice(0, 15).map(a => {
+        const time = new Date(a.time).toLocaleString();
+        return `<li style="padding:6px 0;border-bottom:1px solid rgba(62,39,35,0.06);font-size:13px;">
+          <span style="color:var(--walnut-light);font-family:var(--font-mono);font-size:11px;">${time}</span>
+          &nbsp; ${esc(a.text)}
+        </li>`;
+      }).join('') + '</ul>';
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   EXPORT / IMPORT
+   ═══════════════════════════════════════════════════════════════ */
+function exportData() {
+  const blob = new Blob([JSON.stringify({ bom: state.bom, solutions: state.solutions, timeline: state.timeline, activity: state.activity }, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'fisher-500c-data-' + new Date().toISOString().slice(0, 10) + '.json';
+  a.click();
+  URL.revokeObjectURL(a.href);
+}
+
+function importData(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = (ev) => {
+    try {
+      const data = JSON.parse(ev.target.result);
+      if (data.bom) state.bom = data.bom;
+      if (data.solutions) state.solutions = data.solutions;
+      if (data.timeline) state.timeline = data.timeline;
+      if (data.activity) state.activity = data.activity;
+      logActivity('Data imported from file');
+      save();
+      renderAll();
+      alert('Data imported successfully!');
+    } catch(err) { alert('Invalid JSON file: ' + err.message); }
+  };
+  reader.readAsText(file);
+  e.target.value = '';
+}
+
+function clearAllData() {
+  state.bom = [];
+  state.solutions = [];
+  state.timeline = [];
+  state.activity = [];
+  save();
+  renderAll();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════════ */
+function esc(str) {
+  if (!str) return '';
+  const d = document.createElement('div');
+  d.textContent = str;
+  return d.innerHTML;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDER ALL
+   ═══════════════════════════════════════════════════════════════ */
+function renderAll() {
+  renderBom();
+  renderSolutions();
+  renderTimeline();
+  renderOverview();
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   INIT
+   ═══════════════════════════════════════════════════════════════ */
+loadLocal();
+renderAll();
+
+// Restore Firebase config input and reconnect
+if (state.firebaseConfig) {
+  document.getElementById('firebaseConfigInput').value = JSON.stringify(state.firebaseConfig, null, 2);
+  connectFirebase(state.firebaseConfig);
+} else {
+  document.getElementById('syncDot').className = 'sync-dot';
+  document.getElementById('syncStatus').textContent = 'Local Mode';
+}
+</script>
+</body>
+</html>
