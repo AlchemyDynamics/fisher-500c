@@ -1078,6 +1078,10 @@ function saveFirebaseConfig() {
 }
 
 function clearFirebaseConfig() {
+  if (DB) {
+    DB.ref('fisher500c').off();
+    DB.ref('.info/connected').off();
+  }
   state.firebaseConfig = null;
   DB = null;
   saveLocal();
@@ -1329,7 +1333,7 @@ function saveSolItem() {
   const editId = document.getElementById('solEditId').value;
   const item = {
     id: editId || uid(),
-    num: editId ? state.solutions.find(s => s.id === editId)?.num : (state.solutions.length + 1),
+    num: editId ? state.solutions.find(s => s.id === editId)?.num : (state.solutions.reduce((m, s) => Math.max(m, s.num || 0), 0) + 1),
     title: document.getElementById('solTitle').value.trim(),
     category: document.getElementById('solCategory').value,
     priority: document.getElementById('solPriority').value,
@@ -1642,7 +1646,7 @@ function esc(str) {
   if (!str) return '';
   const d = document.createElement('div');
   d.textContent = str;
-  return d.innerHTML;
+  return d.innerHTML.replace(/"/g, '&quot;');
 }
 
 /* ═══════════════════════════════════════════════════════════════
